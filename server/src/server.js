@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const employeeRoutes =
-require("./route/employeeRoutes");
+require("./routes/employeeRoutes");
 
 const app = express();
 

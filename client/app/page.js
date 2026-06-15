@@ -1,35 +1,93 @@
-async function getEmployees() {
-  const res = await fetch(
-    "http://localhost:5000/employees",
-    {
-      cache: "no-store",
-    }
-  );
+"use client";
 
-  return res.json();
-}
+import { useEffect, useState } from "react";
 
-export default async function Home() {
-  const employees = await getEmployees();
+import EmployeeForm from "@/components/EmployeeForm";
+import EmployeeTable from "@/components/EmployeeTable";
+import EditEmployeeDialog from "@/components/EditEmployeeDialog";
+
+import {
+  getEmployees,
+  deleteEmployee,
+  updateEmployee,
+} from "@/services/employeeService";
+  
+
+export default function Home() {
+  const [employees, setEmployees] = useState([]);
+
+  const [selectedEmployee, setSelectedEmployee] =
+    useState(null);
+
+  const [isEditOpen, setIsEditOpen] =
+    useState(false);
+
+  const loadEmployees = async () => {
+    const data = await getEmployees();
+
+    setEmployees(data);
+  };
+
+  useEffect(() => {
+  const fetchData = async () => {
+    await loadEmployees();
+  };
+
+  fetchData();
+}, []);
+
+  const handleDelete = async (id) => {
+  await deleteEmployee(id);
+
+  loadEmployees();
+};
+
+  const handleEdit = (employee) => {
+  setSelectedEmployee(employee);
+  setIsEditOpen(true);
+};
+ 
+  const handleUpdate = async (id, updatedData) => {
+  await updateEmployee(id, updatedData);
+
+  setIsEditOpen(false);
+
+  loadEmployees();
+};
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Employee List</h1>
+    <main
+  style={{
+    maxWidth: "900px",
+    margin: "20px auto",
+    padding: "20px",
+  }}
+>
+      <h1
+  style={{
+    textAlign: "center",
+    marginBottom: "20px",
+  }}
+>
+  Employee Management System
+</h1>
 
-      {employees.map((emp) => (
-        <div
-          key={emp.id}
-          style={{
-            border: "1px solid gray",
-            padding: "10px",
-            marginBottom: "10px",
-          }}
-        >
-          <h3>{emp.name}</h3>
-          <p>{emp.email}</p>
-          <p>{emp.contact_number}</p>
-        </div>
-      ))}
-    </div>
+      <EmployeeForm />
+
+      <br />
+
+      <EmployeeTable
+  employees={employees}
+  onDelete={handleDelete}
+  onEdit={handleEdit}
+/>
+
+    <EditEmployeeDialog
+  employee={selectedEmployee}
+  isOpen={isEditOpen}
+  onClose={() => setIsEditOpen(false)}
+  onSave={handleUpdate}
+/>
+    </main>
   );
 }

@@ -17,4 +17,5 @@ model Employee {
  name           String
  email          String @unique
  contact_number String
+ image          String?
 }
