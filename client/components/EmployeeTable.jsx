@@ -25,7 +25,7 @@ export default function EmployeeTable({
       </thead>
 
       <tbody>
-        {employees.map((employee) => (
+        {(Array.isArray(employees) ? employees : []).map((employee) => (
           <tr key={employee.id}>
             <td>
               <span style={{ fontSize: "20px" }}>
