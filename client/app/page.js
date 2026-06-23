@@ -1,11 +1,12 @@
 "use client";
-
+<div className="bg-red-500 text-white text-4xl p-10">TAILWIND TEST</div>;
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import EmployeeForm from "@/components/EmployeeForm";
 import EmployeeTable from "@/components/EmployeeTable";
 import EditEmployeeDialog from "@/components/EditEmployeeDialog";
+import { Button } from "@/components/ui/button";
 
 import {
   getEmployees,
@@ -80,48 +81,38 @@ export default function Home() {
   }
 
   return (
-    <main
-      style={{
-        maxWidth: "900px",
-        margin: "20px auto",
-        padding: "20px",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          marginBottom: "10px",
-        }}
-      >
-        <button onClick={handleLogout}>Logout</button>
+    <main className="min-h-screen bg-slate-100">
+      <div className="max-w-6xl mx-auto p-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold">Employee Management System</h1>
+
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 text-white px-4 py-2 rounded-lg"
+          >
+            Logout
+          </button>
+        </div>
+
+        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+          <EmployeeForm />
+        </div>
+
+        <div className="bg-white rounded-xl shadow-md p-6">
+          <EmployeeTable
+            employees={employees}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+          />
+        </div>
+
+        <EditEmployeeDialog
+          employee={selectedEmployee}
+          isOpen={isEditOpen}
+          onClose={() => setIsEditOpen(false)}
+          onSave={handleUpdate}
+        />
       </div>
-
-      <h1
-        style={{
-          textAlign: "center",
-          marginBottom: "20px",
-        }}
-      >
-        Employee Management System
-      </h1>
-
-      <EmployeeForm />
-
-      <br />
-
-      <EmployeeTable
-        employees={employees}
-        onDelete={handleDelete}
-        onEdit={handleEdit}
-      />
-
-      <EditEmployeeDialog
-        employee={selectedEmployee}
-        isOpen={isEditOpen}
-        onClose={() => setIsEditOpen(false)}
-        onSave={handleUpdate}
-      />
     </main>
   );
 }

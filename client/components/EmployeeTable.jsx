@@ -1,60 +1,105 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+
+import {
+  Card,
+  CardContent,
+} from "@/components/ui/card";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
 export default function EmployeeTable({
   employees,
   onDelete,
   onEdit,
-}){
+}) {
   return (
-    <table
-  border="1"
-  cellPadding="10"
-  style={{
-    width: "100%",
-    marginTop: "20px",
-  }}
->
-      <thead>
-        <tr>
-          <th>Image</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Contact</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    <Card>
+      <CardContent className="p-4">
+        <h2 className="text-2xl font-semibold mb-4">
+          Employee List
+        </h2>
 
-      <tbody>
-        {(Array.isArray(employees) ? employees : []).map((employee) => (
-          <tr key={employee.id}>
-            <td>
-              <span style={{ fontSize: "20px" }}>
-  {employee.image}
-</span>
-            </td>
+        <Table className="w-full border-collapse">
+          <TableHeader className="bg-slate-100">
+            <TableRow>
+              <TableHead className="p-4 text-left">Image</TableHead>
+              <TableHead className="p-4 text-left">Name</TableHead>
+              <TableHead className="p-4 text-left">Email</TableHead>
+              <TableHead className="p-4 text-left">Contact</TableHead>
+              <TableHead>Actions</TableHead>
+            </TableRow>
+          </TableHeader>
 
-            <td>{employee.name}</td>
+          <TableBody>
+            {(Array.isArray(employees)
+              ? employees
+              : []
+            ).map((employee) => (
+              <TableRow
+                key={employee.id}
+                className="border-b hover:bg-slate-50"
+              >
+                <TableCell>
+                  <span className="text-2xl">
+                    {employee.image}
+                  </span>
+                </TableCell>
 
-            <td>{employee.email}</td>
+                <TableCell>
+                  {employee.name}
+                </TableCell>
 
-            <td>{employee.contact_number}</td>
+                <TableCell>
+                  {employee.email}
+                </TableCell>
 
-            <td>
-  <button
-    onClick={() => onEdit(employee)}
-  >
-    Edit
-  </button>
+                <TableCell>
+                  {
+                    employee.contact_number
+                  }
+                </TableCell>
 
-  <button
-    onClick={() => onDelete(employee.id)}
-  >
-    Delete
-  </button>
-</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+                <TableCell>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() =>
+                        onEdit(employee)
+                      }
+                      className="bg-blue-500 text-white px-3 py-1 rounded mr-2"
+                    >
+                      Edit
+                    </Button>
+
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() =>
+                        onDelete(
+                          employee.id
+                        )
+                      }
+                      className="bg-red-500 text-white px-3 py-1 rounded"
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   );
 }

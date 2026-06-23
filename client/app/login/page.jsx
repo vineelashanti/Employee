@@ -51,17 +51,15 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <form
-        onSubmit={handleLogin}
-        className="w-full max-w-md rounded-lg bg-white p-6 shadow-md"
-      >
-        <h1 className="mb-6 text-center text-2xl font-bold">
-          Employee Login
-        </h1>
+  <div className="min-h-screen bg-slate-100 flex items-center justify-center">
+    <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+      <h1 className="text-3xl font-bold text-center mb-8">
+        Employee Login
+      </h1>
 
-        <div className="mb-4">
-          <label className="mb-2 block">
+      <form onSubmit={handleLogin} className="space-y-4">
+        <div>
+          <label className="block mb-2 font-medium">
             Email
           </label>
 
@@ -71,14 +69,13 @@ export default function LoginPage() {
             onChange={(e) =>
               setEmail(e.target.value)
             }
-            className="w-full rounded border p-2"
+            className="w-full border rounded-lg p-3"
             placeholder="Enter email"
-            required
           />
         </div>
 
-        <div className="mb-4">
-          <label className="mb-2 block">
+        <div>
+          <label className="block mb-2 font-medium">
             Password
           </label>
 
@@ -88,22 +85,19 @@ export default function LoginPage() {
             onChange={(e) =>
               setPassword(e.target.value)
             }
-            className="w-full rounded border p-2"
+            className="w-full border rounded-lg p-3"
             placeholder="Enter password"
-            required
           />
         </div>
 
         <button
           type="submit"
-          disabled={loading}
-          className="w-full rounded bg-blue-600 p-2 text-white"
+          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700"
         >
-          {loading
-            ? "Logging In..."
-            : "Login"}
+          {loading ? "Logging In..." : "Login"}
         </button>
       </form>
     </div>
-  );
+  </div>
+);
 }
